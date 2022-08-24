@@ -11,15 +11,24 @@ require 'db-conn.php';
 <body>
     <div class="main-section">
         <div class="add-section">
-            <form action="">
-                <input type="texte"
-                       name="titre"
-                       placeholder="Ce champs est obligatoire"/>
-                <button type="submit">Ajouter &nbsp;<span>&#43;</span></button>
-            </form>
+                <form action="App/add.php" method="POST" autocomplete="off">
+                 <?php if(isset($_GET['mess']) && $_GET['mess'] == 'error'){ ?>
+                    <input type="text" 
+                        name="titre" 
+                        style="border-color: #ff6666"
+                        placeholder="ce Champs est obligatoire" />
+                    <button type="submit">Add &nbsp; <span>&#43;</span></button>
+
+                    <?php }else{ ?>
+                        <input type="text" 
+                               name="titre" 
+                               placeholder="Que devez-vous faire?" />
+                        <button type="submit">Add &nbsp; <span>&#43;</span></button>
+                    <?php } ?>
+                </form>
+            </div>
         </div>
-    </div>
-    <?php 
+      <?php 
           $todos = $conn->query("SELECT * FROM todo ORDER BY id DESC");
        ?>
          <div class="show-todo-section"> 

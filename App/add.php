@@ -8,8 +8,8 @@ if(isset($_POST['titre'])){
     if(empty($titre)){
         header("Location: ../index.php?mess=error");
     }else {
-        $stmt = $conn->prepare("INSERT INTO todos(titre) VALUE(?)");
-        $res = $stmt->execute([$title]);
+        $stmt = $conn->prepare("INSERT INTO todo(titre) VALUE(?)");
+        $res = $stmt->execute([$titre]);
 
         if($res){
             header("Location: ../index.php?mess=success"); 
