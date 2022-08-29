@@ -16,14 +16,14 @@ require 'db-conn.php';
                     <input type="text" 
                         name="titre" 
                         style="border-color: #ff6666"
-                        placeholder="ce Champs est obligatoire" />
-                    <button type="submit">Add &nbsp; <span>&#43;</span></button>
+                        placeholder="Ce champs est obligatoire" />
+                    <button type="submit">Ajouter &nbsp; <span>&#43;</span></button>
 
                     <?php }else{ ?>
                         <input type="text" 
                                name="titre" 
                                placeholder="Que devez-vous faire?" />
-                        <button type="submit">Add &nbsp; <span>&#43;</span></button>
+                        <button type="submit">Ajouter &nbsp; <span>&#43;</span></button>
                     <?php } ?>
                 </form>
             </div>
@@ -46,7 +46,7 @@ require 'db-conn.php';
                 <div class="todo-item">
                     <span id="<?php echo $todo['id']; ?>"
                           class="remove-to-do">x</span>
-                    <?php if($todo['verification']){ ?> 
+                    <?php if($todo['checked']){ ?> 
                         <input type="checkbox"
                                class="check-box"
                                data-todo-id ="<?php echo $todo['id']; ?>"
@@ -64,5 +64,45 @@ require 'db-conn.php';
             <?php } ?>
              </div>
          </div>
+
+    <script src="jquery-3.2.1.min.js"> </script>
+    <script>
+        $(document).ready(function(){
+            $('.remove-to-do').click(function(){
+                const id = $(this).attr('id');
+                
+                $.post("App/supp.php", 
+                      {
+                          id: id
+                      },
+                      (data)  => {
+                         if(data){
+                             $(this).parent().hide(600);
+                         }
+                      }
+                );
+            });
+
+            $(".check-box").click(function(e){
+                const id = $(this).attr('data-todo-id');
+                
+                $.post('App/check.php', 
+                      {
+                          id: id
+                      },
+                      (data) => {
+                          if(data != 'error'){
+                              const h2 = $(this).next();
+                              if(data === '1'){
+                                  h2.removeClass('checked');
+                              }else {
+                                  h2.addClass('checked');
+                              }
+                          }
+                      }
+                );
+            });
+        });
+    </script>
 </body>
 </html>
